@@ -1,29 +1,18 @@
-window.addEventListener('DOMContentLoaded', async () => {
-    if (window.innerWidth < 700) {
-        $("#aside-show").show();
-        $("#aside").hide();
-    }
+var printText = $('.text').data('text');
 
-    $('#menu-icon').click(function(){
-        $(this).toggleClass('open');
-
-        var e = $("#main-menu");
-        if (e.height() == '0px' || !e.height()) {
-            e.height('100%');
-        } else {
-            e.height('0px');
-        }
-    });
+var contentArray = printText.split('/n');
+$.each(contentArray, function(index, newLine) {
+  $('.text').append('<span style="display:block;" id="'+index+'"></span>');
+  
+  var lineID = index;
+  var self = $(this);
+    setTimeout(function () {
+      $.each(self, function(index, chunk){
+          setTimeout(function () {
+            $('#'+lineID).append("<span>"+chunk+"</span>");
+            $('body, html').scrollTop($(document).height());
+          }, index*5);
+      });
+      
+    }, index*100);
 });
-
-function sideMenu() {
-    var e = $("#aside");
-    var e2 = $("#aside-show");
-    if (e.css("display") == "none") {
-        e.show();
-        e2.hide();
-    } else {
-        e.hide();
-        e2.show();
-    }
-}
